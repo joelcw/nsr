@@ -2,7 +2,7 @@
 nodes_only:t
 remove_nodes:t
 add_to_ignore: \**
-define:../../OldNorse/verbtopic.def
+define:../CurrentLx/OldNorse/verbtopic.def
 node: IP*
 coding_query:
 
