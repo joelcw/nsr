@@ -91,6 +91,14 @@ StEwrtZero
 "ZeroWrtStE"
 ZeroWrtStE
 
+rest_p_NSR <-NSRwrtZero/(StEwrtNSR+ZeroWrtNSR+StEwrtZero) 
+rest_p_StE <-StEwrtNSR/(StEwrtNSR+ZeroWrtNSR+StEwrtZero)
+rest_p_Zero <-StEwrtZero/(StEwrtNSR+ZeroWrtNSR+StEwrtZero)
+
+rest_p_NSR
+rest_p_StE
+rest_p_Zero
+
 #Pairwise calculation assuming t/d-deletion; note that StE can use td-deletion with 2sg in modals
 NSRwrtStE <-  DPplAdj + sg1Non + pl13Non + pl2Non  + DPplNon
 NSRwrtZero <- sg2Adj+sg2Non + sg3Adj + DPsgAdj + DPplAdj + sg1Non + sg2Non + sg3Non + pl13Non + pl2Non + DPsgNon + DPplNon
@@ -142,3 +150,42 @@ ZeroWrtNSR
 StEwrtZero
 "ZeroWrtStE"
 ZeroWrtStE
+
+#1:NSR
+#2:StE
+#3:Zero
+
+p_NSR <-0.98
+p_StE <- 0.01
+p_Zero <- 0.01
+
+#Experimenting with scaling
+NSRwrtStE <- NSRwrtStE/100
+StEwrtNSR <- StEwrtNSR/100
+NSRwrtZero <- NSRwrtZero/100
+ZeroWrtNSR <- ZeroWrtNSR/100
+StEwrtZero <- StEwrtZero/100
+ZeroWrtStE <- ZeroWrtStE/100
+
+ii <- 1
+niter <- 100
+
+while(ii <= niter)
+{
+c_NSR = (StEwrtNSR*p_StE) + (ZeroWrtNSR*p_Zero)
+c_StE = (NSRwrtStE*p_NSR) + (ZeroWrtStE*p_Zero)
+c_Zero = (NSRwrtZero*p_NSR) + (ZeroWrtStE*p_StE)
+
+p_NSR = (c_StE*c_Zero)/((c_StE*c_Zero) + (c_NSR*c_Zero) + (c_NSR*c_StE))
+
+p_StE = (c_NSR*c_Zero)/((c_StE*c_Zero) + (c_NSR*c_Zero) + (c_NSR*c_StE))
+
+p_Zero = (c_StE*c_NSR)/((c_StE*c_Zero) + (c_NSR*c_Zero) + (c_NSR*c_StE))
+
+
+ii <- ii+1
+}
+
+p_NSR 
+p_StE 
+p_Zero
